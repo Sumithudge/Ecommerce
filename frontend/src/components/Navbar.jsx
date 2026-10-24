@@ -47,7 +47,7 @@ function Navbar() {
         <span className="mx-2">•</span>
         Easy returns
         <span className="mx-2">•</span>
-        Secure payments
+        Cash on Delivery
       </div>
 
       {/* Main Navbar */}
@@ -112,7 +112,8 @@ function Navbar() {
               </span>
             </Link>
 
-            <button
+            <Link
+              to="/wishlist"
               className="relative hidden p-2 sm:block"
               aria-label="Wishlist"
             >
@@ -120,7 +121,7 @@ function Navbar() {
                 size={22}
                 strokeWidth={1.7}
               />
-            </button>
+            </Link>
 
             <Link
               to="/cart"
