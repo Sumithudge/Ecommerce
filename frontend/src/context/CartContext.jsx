@@ -84,7 +84,7 @@ export function CartProvider({ children }) {
     setCartItems((currentItems) =>
       currentItems
         .map((item) =>
-          item.id === productId
+          (item._id || item.id) === productId
             ? {
                 ...item,
                 quantity: item.quantity - 1,
