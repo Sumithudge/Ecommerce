@@ -10,7 +10,7 @@ export default function Checkout() {
   const { user } = useAuth()
   const navigate = useNavigate()
   const [form, setForm] = useState({ firstName:'', lastName:'', phone:'', email:user?.email || '', address:'', city:'', state:'', pincode:'' })
-  const [paymentMethod, setPaymentMethod] = useState('cod')
+  const paymentMethod = 'cod'
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
   const [couponCode, setCouponCode] = useState('')
