@@ -178,7 +178,7 @@ function ProductDetails() {
                 </span>
               )}
 
-              {product.isNew && (
+              {product.newArrival && (
                 <span className="absolute left-5 top-16 rounded-full bg-white px-4 py-2 text-xs font-bold text-[#24151d] shadow-sm">
                   New Arrival
                 </span>
