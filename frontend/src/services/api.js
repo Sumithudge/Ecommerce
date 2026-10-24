@@ -45,3 +45,12 @@ export const deleteAdminProduct = (id) => request(`/admin/products/${id}`, { met
 export const getAdminOrders = () => request('/admin/orders')
 export const updateAdminOrder = (id, status) => request(`/admin/orders/${id}`, { method: 'PATCH', body: JSON.stringify({ status }) })
 export const getAdminUsers = () => request('/admin/users')
+
+export const getWishlist = () => request('/store/wishlist')
+export const toggleWishlist = (productId) => request(`/store/wishlist/${productId}`, { method: 'POST' })
+export const getAddresses = () => request('/store/addresses')
+export const addAddress = (payload) => request('/store/addresses', { method: 'POST', body: JSON.stringify(payload) })
+export const deleteAddress = (id) => request(`/store/addresses/${id}`, { method: 'DELETE' })
+export const getReviews = (productId) => request(`/store/reviews/${productId}`)
+export const createReview = (productId, payload) => request(`/store/reviews/${productId}`, { method: 'POST', body: JSON.stringify(payload) })
+export const applyCoupon = (code, subtotal) => request('/store/coupons/apply', { method: 'POST', body: JSON.stringify({ code, subtotal }) })
