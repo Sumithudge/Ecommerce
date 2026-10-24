@@ -4,6 +4,7 @@ import Product from '../models/Product.js'
 export async function createOrder(req, res) {
   try {
     const { items, shippingAddress, paymentMethod = 'cod', discount = 0 } = req.body
+    if (paymentMethod !== 'cod') return res.status(400).json({ message: 'Elora accepts Cash on Delivery only' })
     if (!Array.isArray(items) || !items.length) return res.status(400).json({ message: 'Cart is empty' })
 
     const productIds = items.map(item => item.productId || item._id)
