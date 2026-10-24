@@ -11,6 +11,7 @@ import Login from './pages/Login.jsx'
 import Register from './pages/Register.jsx'
 import Account from './pages/Account.jsx'
 import Admin from './pages/Admin.jsx'
+import OrderSuccess from './pages/OrderSuccess.jsx'
 
 function Payment() {
   return (
@@ -74,6 +75,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/account" element={<Account />} />
+        <Route path="/order-success" element={<OrderSuccess />} />
         <Route path="/admin" element={<Admin />} />
 
         {/* Cart */}
