@@ -38,7 +38,7 @@ const products = [
     reviews: 94,
     sizes: ['S', 'M', 'L', 'XL', 'XXL'],
     colors: ['Blue', 'Green'],
-    isNew: true,
+    newArrival: true,
     stock: 30,
     isActive: true,
   },
