@@ -143,7 +143,7 @@ function Cart() {
             <div className="mt-3 flex justify-between text-gray-600">
               <span>Shipping</span>
 
-              <span>200</span>
+              <span>{cartTotal >= 1500 ? 'FREE' : '₹80'}</span>
             </div>
 
             <div className="my-6 border-t border-gray-200" />
