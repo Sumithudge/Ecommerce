@@ -24,7 +24,18 @@ export default function Admin() {
     <header className="sticky top-0 z-30 border-b bg-white"><div className="mx-auto flex h-16 max-w-[1500px] items-center justify-between px-4"><Link to="/" className="text-2xl font-black text-[#24151d]">Elora <span className="text-xs font-semibold text-gray-400">ADMIN</span></Link><div className="flex items-center gap-3"><span className="hidden text-sm text-gray-500 sm:block">{user.name}</span><button onClick={logout} className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold hover:bg-gray-100"><LogOut size={16}/>Sign out</button></div></div></header>
     <div className="mx-auto flex max-w-[1500px]">
       <aside className="hidden min-h-[calc(100vh-4rem)] w-60 border-r bg-white p-4 lg:block">{[['overview','Overview',BarChart3],['products','Products',Boxes],['orders','Orders',Package],['users','Customers',Users]].map(([id,label,Icon])=><button key={id} onClick={()=>setTab(id)} className={'mb-1 flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold '+(tab===id?'bg-[#24151d] text-white':'text-gray-600 hover:bg-gray-50')}><Icon size={18}/>{label}</button>)}</aside>
-      <main className="min-w-0 flex-1 p-4 sm:p-6 lg:p-8"><div className="mb-7"><p className="text-xs font-bold uppercase tracking-[.2em] text-[#c76b8b]">Control center</p><h1 className="mt-1 text-3xl font-black text-[#24151d]">{tab === 'overview' ? 'Store overview' : tab === 'products' ? 'Product catalog' : tab === 'orders' ? 'Order management' : 'Customer management'}</h1></div>
+      <main className="min-w-0 flex-1 p-4 sm:p-6 lg:p-8">      <div className="mb-5 flex gap-2 overflow-x-auto lg:hidden">
+        {[['overview','Overview',BarChart3],['products','Products',Boxes],['orders','Orders',Package],['users','Customers',Users]].map(([id,label,Icon]) => (
+          <button
+            key={id}
+            onClick={() => setTab(id)}
+            className={'flex shrink-0 items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold ' + (tab === id ? 'bg-[#24151d] text-white' : 'bg-white text-gray-600 ring-1 ring-gray-200')}
+          >
+            <Icon size={16} />{label}
+          </button>
+        ))}
+      </div>
+        <div className="mb-7"><p className="text-xs font-bold uppercase tracking-[.2em] text-[#c76b8b]">Control center</p><h1 className="mt-1 text-3xl font-black text-[#24151d]">{tab === 'overview' ? 'Store overview' : tab === 'products' ? 'Product catalog' : tab === 'orders' ? 'Order management' : 'Customer management'}</h1></div>
         {tab === 'overview' && <><div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">{cards.map(([label,value,Icon])=><div key={label} className="rounded-2xl bg-white p-5 ring-1 ring-gray-100"><Icon className="text-[#c76b8b]"/><p className="mt-5 text-sm text-gray-500">{label}</p><p className="mt-1 text-2xl font-black">{value}</p></div>)}</div><div className="mt-6 rounded-2xl bg-white p-6 ring-1 ring-gray-100"><h2 className="font-black">Latest orders</h2>{orders.slice(0,6).map(o=><div key={o._id} className="flex items-center justify-between border-b py-4 last:border-0"><div><b>#{o._id.slice(-8).toUpperCase()}</b><p className="text-xs text-gray-500">{o.user?.name} · {o.user?.email}</p></div><span className="font-bold">₹{o.total.toLocaleString('en-IN')}</span></div>)}</div></>}
         {tab === 'products' && <ProductTable products={products} reload={load} onEdit={setEditing} />}{editing && <ProductEditor product={editing} close={()=>setEditing(null)} reload={load} />}
         {tab === 'orders' && <OrderTable orders={orders} reload={load} />}
