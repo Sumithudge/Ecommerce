@@ -36,6 +36,7 @@ export default function Checkout() {
         items: cartItems.map(item => ({ productId: item._id || item.id, quantity: item.quantity, selectedSize: item.selectedSize || '' })),
         shippingAddress: form,
         paymentMethod,
+        couponCode,
         discount,
       })
       clearCart()
