@@ -10,13 +10,6 @@ function ProductCard({ product }) {
   const { addToCart } = useCart()
   const { user } = useAuth()
 
-  useEffect(() => {
-    if (!user || !productId) return
-    getWishlist()
-      .then(items => setLiked(items.some(item => String(item._id || item.id) === String(productId))))
-      .catch(() => {})
-  }, [user, productId])
-
   if (!product) return null
 
   const {
@@ -34,6 +27,13 @@ function ProductCard({ product }) {
   } = product
 
   const productId = _id || id
+
+  useEffect(() => {
+    if (!user || !productId) return
+    getWishlist()
+      .then(items => setLiked(items.some(item => String(item._id || item.id) === String(productId))))
+      .catch(() => {})
+  }, [user, productId])
   const productName = name || title || 'Fashion Product'
 
   const productImage =
