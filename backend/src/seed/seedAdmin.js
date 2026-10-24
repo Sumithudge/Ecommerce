@@ -16,7 +16,7 @@ function hashPassword(value) {
 }
 
 await connectDB()
-const email = (process.env.ADMIN_EMAIL || 'admin@elora.shop').toLowerCase()
+const email = (process.env.ADMIN_EMAIL || 'admin@shobhaya.shop').toLowerCase()
 const existing = await User.findOne({ email })
 if (existing) {
   existing.role = 'admin'
@@ -25,7 +25,7 @@ if (existing) {
   await existing.save()
   console.log('Admin account updated:', email)
 } else {
-  await User.create({ name: 'Elora Admin', email, passwordHash: hashPassword(password), role: 'admin' })
+  await User.create({ name: 'Shobhaya Cloth Admin', email, passwordHash: hashPassword(password), role: 'admin' })
   console.log('Admin account created:', email)
 }
 process.exit(0)
