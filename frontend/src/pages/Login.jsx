@@ -27,7 +27,7 @@ export default function Login() {
       {error && <p className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-600">{error}</p>}
       <button disabled={busy} className="w-full rounded-xl bg-[#24151d] py-3.5 font-bold text-white disabled:opacity-50">{busy ? 'Signing in…' : 'Sign In'}</button>
     </form>
-    <p className="mt-6 text-center text-sm text-gray-500">New to Elora? <Link to="/register" className="font-bold text-[#c76b8b]">Create account</Link></p>
+    <p className="mt-6 text-center text-sm text-gray-500">New to Elora? <Link to="/register" state={location.state} className="font-bold text-[#c76b8b]">Create account</Link></p>
   </AuthLayout>
 }
 
