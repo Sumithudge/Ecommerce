@@ -383,10 +383,10 @@ function ProductDetails() {
             <div className="mt-7 grid gap-3 sm:grid-cols-3">
               <div className="rounded-2xl bg-white p-4 ring-1 ring-gray-100">
                 <p className="text-xs font-bold text-[#24151d]">
-                  Secure Payment
+                  Cash on Delivery
                 </p>
                 <p className="mt-1 text-xs text-gray-500">
-                  Safe & secure checkout
+                  Pay when your order arrives
                 </p>
               </div>
 
