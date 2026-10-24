@@ -85,7 +85,7 @@ useEffect(() => {
       } else if (selectedCategory === 'New Arrivals') {
         result = result.filter(
           (product) =>
-            product.isNew === true ||
+            product.newArrival === true || product.isNew === true ||
             product.newArrival === true ||
             product.badge === 'New'
         )
