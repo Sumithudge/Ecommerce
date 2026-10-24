@@ -11,6 +11,7 @@ function verifyPassword(password, stored) {
   const [salt, hash] = String(stored).split(':')
   if (!salt || !hash) return false
   const derived = crypto.scryptSync(password, salt, 64).toString('hex')
+  if (hash.length !== derived.length) return false
   return crypto.timingSafeEqual(Buffer.from(hash, 'hex'), Buffer.from(derived, 'hex'))
 }
 
@@ -27,6 +28,7 @@ export async function register(req, res) {
     res.status(201).json({ token: createToken(user), user: { id: user._id, name: user.name, email: user.email, role: user.role } })
   } catch (error) {
     console.error('Register error:', error)
+    if (error?.code === 11000) return res.status(409).json({ message: 'Email is already registered' })
     res.status(500).json({ message: 'Unable to create account' })
   }
 }
