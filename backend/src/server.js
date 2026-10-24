@@ -59,7 +59,7 @@ app.use('/api/store', storeRoutes)
 app.get('/api/health', (req, res) => {
   res.json({
     success: true,
-    message: 'Elora API is running',
+    message: 'Shobhaya Cloth API is running',
   })
 })
 
@@ -78,7 +78,7 @@ const startServer = async () => {
 
   app.listen(PORT, () => {
     console.log(
-      'Elora API running on http://localhost:' + PORT
+      'Shobhaya Cloth API running on http://localhost:' + PORT
     )
   })
 }
