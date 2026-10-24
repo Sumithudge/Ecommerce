@@ -166,12 +166,6 @@ function FilterPanel({ selectedCategory, changeCategory, maxPrice, setMaxPrice, 
         {sizes.map(size => { const active = selectedSizes.includes(size); return <button key={size} type="button" onClick={() => toggleSize(size)} className={`rounded-lg border py-2.5 text-xs font-semibold transition ${active ? 'border-[#24151d] bg-[#24151d] text-white' : 'border-gray-200 text-gray-600 hover:border-[#c76b8b] hover:text-[#c76b8b]'}`}>{size}</button> })}
       </div></div>
 
-      <div className="my-6 border-t border-gray-100" />
-      <div><h3 className="text-sm font-bold text-gray-900">Shopping benefits</h3><div className="mt-4 space-y-3 text-sm text-gray-600">
-        <label className="flex items-center gap-3"><input type="checkbox" className="h-4 w-4 accent-[#c76b8b]" />Free delivery</label>
-        <label className="flex items-center gap-3"><input type="checkbox" className="h-4 w-4 accent-[#c76b8b]" />Easy returns</label>
-        <label className="flex items-center gap-3"><input type="checkbox" className="h-4 w-4 accent-[#c76b8b]" />New arrivals</label>
-      </div></div>
     </div>
   )
 }
