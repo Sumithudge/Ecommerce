@@ -10,12 +10,16 @@ import {
 } from 'lucide-react'
 
 import Navbar from '../components/Navbar.jsx'
-import { getProductById } from '../services/api.js'
+import { getProductById, getReviews, createReview } from '../services/api.js'
+import { useAuth } from '../context/AuthContext.jsx'
 import { useCart } from '../context/CartContext.jsx'
 
 function ProductDetails() {
   const { id } = useParams()
   const { addToCart } = useCart()
+  const { user } = useAuth()
+  const [reviewsList, setReviewsList] = useState([])
+  const [review, setReview] = useState({ rating: 5, title: '', comment: '' })
 
   const [product, setProduct] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -45,6 +49,7 @@ function ProductDetails() {
     }
 
     loadProduct()
+    getReviews(id).then(setReviewsList).catch(() => {})
   }, [id])
 
   const handleAddToCart = () => {
@@ -362,6 +367,17 @@ function ProductDetails() {
                   : 'Add to Bag'}
               </button>
             </div>
+
+            <section className="mt-8 rounded-2xl bg-white p-5 ring-1 ring-gray-100">
+              <h2 className="text-lg font-black text-[#24151d]">Customer reviews</h2>
+              {user && <form onSubmit={async e=>{e.preventDefault();try{const saved=await createReview(id,review);setReviewsList([saved,...reviewsList.filter(x=>x.user?._id!==user._id)]);setReview({rating:5,title:'',comment:''})}catch{}}} className="mt-4 space-y-3">
+                <div className="flex gap-2">{[1,2,3,4,5].map(n=><button type="button" key={n} onClick={()=>setReview({...review,rating:n})}><Star size={20} className={n<=review.rating?'fill-[#c76b8b] text-[#c76b8b]':'text-gray-300'}/></button>)}</div>
+                <input value={review.title} onChange={e=>setReview({...review,title:e.target.value})} placeholder="Review title" className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm"/>
+                <textarea value={review.comment} onChange={e=>setReview({...review,comment:e.target.value})} placeholder="Share your experience" rows="3" className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm"/>
+                <button className="rounded-xl bg-[#24151d] px-5 py-3 text-sm font-bold text-white">Submit review</button>
+              </form>}
+              <div className="mt-5 space-y-4">{reviewsList.slice(0,6).map(r=><div key={r._id} className="border-t pt-4"><div className="flex justify-between"><b>{r.user?.name||'Customer'}</b><span className="text-sm">★ {r.rating}</span></div><p className="mt-1 font-semibold">{r.title}</p><p className="mt-1 text-sm text-gray-600">{r.comment}</p></div>)}</div>
+            </section>
 
             {/* Delivery information */}
             <div className="mt-7 grid gap-3 sm:grid-cols-3">
