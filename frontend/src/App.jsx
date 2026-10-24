@@ -7,6 +7,10 @@ import Cart from './pages/Cart.jsx'
 import Checkout from './pages/Checkout.jsx'
 import Navbar from './components/Navbar.jsx'
 import About from './pages/About.jsx'
+import Login from './pages/Login.jsx'
+import Register from './pages/Register.jsx'
+import Account from './pages/Account.jsx'
+import Admin from './pages/Admin.jsx'
 
 function Payment() {
   return (
@@ -66,6 +70,11 @@ function App() {
           path="/products/:id"
           element={<ProductDetails />}
         />
+
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/account" element={<Account />} />
+        <Route path="/admin" element={<Admin />} />
 
         {/* Cart */}
         <Route
