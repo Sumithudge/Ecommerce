@@ -9,6 +9,8 @@ const userSchema = new mongoose.Schema({
   avatar: { type: String, default: '' },
   addresses: { type: [{ label: String, firstName: String, lastName: String, phone: String, address: { type: String, required: true }, city: String, state: String, pincode: String }], default: [] },
   wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }],
+  passwordResetTokenHash: { type: String, default: '' },
+  passwordResetExpires: { type: Date, default: null },
   isActive: { type: Boolean, default: true },
 }, { timestamps: true })
 
