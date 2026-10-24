@@ -1,14 +1,21 @@
 import { Link } from 'react-router-dom'
 import { Heart, ShoppingBag, Star } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useCart } from '../context/CartContext.jsx'
 import { useAuth } from '../context/AuthContext.jsx'
-import { toggleWishlist } from '../services/api.js'
+import { getWishlist, toggleWishlist } from '../services/api.js'
 
 function ProductCard({ product }) {
   const [liked, setLiked] = useState(false)
   const { addToCart } = useCart()
   const { user } = useAuth()
+
+  useEffect(() => {
+    if (!user || !productId) return
+    getWishlist()
+      .then(items => setLiked(items.some(item => String(item._id || item.id) === String(productId))))
+      .catch(() => {})
+  }, [user, productId])
 
   if (!product) return null
 
@@ -76,7 +83,7 @@ function ProductCard({ product }) {
         {/* Wishlist */}
         <button
           type="button"
-          onClick={async () => { try { if (user) { const result = await toggleWishlist(productId); setLiked(result.added) } else { setLiked(!liked) } } catch {} }}
+          onClick={async () => { try { if (!user) { window.location.href = '/login'; return } const result = await toggleWishlist(productId); setLiked(result.added) } catch (error) { console.error('Wishlist update failed:', error) } }}
           aria-label="Add to wishlist"
           className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/95 shadow-sm backdrop-blur transition hover:scale-105"
         >
