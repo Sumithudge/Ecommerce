@@ -11,6 +11,10 @@ import storeRoutes from './routes/storeRoutes.js'
 
 dotenv.config()
 
+if (process.env.NODE_ENV === 'production' && !process.env.AUTH_SECRET) {
+  throw new Error('AUTH_SECRET must be configured in production')
+}
+
 const app = express()
 
 app.use(cors({ origin: process.env.FRONTEND_URL ? process.env.FRONTEND_URL.split(',').map(value => value.trim()).filter(Boolean) : true }))
