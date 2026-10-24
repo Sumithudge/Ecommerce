@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 import Home from './pages/Home.jsx'
-import Products from './pages/products.jsx'
+import Products from './pages/Products.jsx'
 import ProductDetails from './pages/ProductDetails.jsx'
 import Cart from './pages/Cart.jsx'
 import Checkout from './pages/Checkout.jsx'
@@ -12,6 +12,7 @@ import Register from './pages/Register.jsx'
 import Account from './pages/Account.jsx'
 import Admin from './pages/Admin.jsx'
 import OrderSuccess from './pages/OrderSuccess.jsx'
+import Wishlist from './pages/Wishlist.jsx'
 
 function Payment() {
   return (
@@ -76,6 +77,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/account" element={<Account />} />
         <Route path="/order-success" element={<OrderSuccess />} />
+        <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/admin" element={<Admin />} />
 
         {/* Cart */}
