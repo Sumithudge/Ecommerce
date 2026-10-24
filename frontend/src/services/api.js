@@ -23,3 +23,25 @@ export const getProductById = async (id) => {
 
   return data
 }
+const authHeaders = (token = localStorage.getItem('elora-token')) => token ? { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' } : { 'Content-Type': 'application/json' }
+
+async function request(path, options = {}) {
+  const response = await fetch(`${API_URL}${path}`, { ...options, headers: { ...authHeaders(options.token), ...(options.headers || {}) } })
+  const data = await response.json().catch(() => ({}))
+  if (!response.ok) throw new Error(data.message || 'Request failed')
+  return data
+}
+
+export const registerUser = (payload) => request('/auth/register', { method: 'POST', body: JSON.stringify(payload) })
+export const loginUser = (payload) => request('/auth/login', { method: 'POST', body: JSON.stringify(payload) })
+export const getMe = (token) => request('/auth/me', { token })
+export const getMyOrders = () => request('/orders')
+export const createOrder = (payload) => request('/orders', { method: 'POST', body: JSON.stringify(payload) })
+export const getAdminDashboard = () => request('/admin/dashboard')
+export const getAdminProducts = () => request('/admin/products')
+export const createAdminProduct = (payload) => request('/admin/products', { method: 'POST', body: JSON.stringify(payload) })
+export const updateAdminProduct = (id, payload) => request(`/admin/products/${id}`, { method: 'PUT', body: JSON.stringify(payload) })
+export const deleteAdminProduct = (id) => request(`/admin/products/${id}`, { method: 'DELETE' })
+export const getAdminOrders = () => request('/admin/orders')
+export const updateAdminOrder = (id, status) => request(`/admin/orders/${id}`, { method: 'PATCH', body: JSON.stringify({ status }) })
+export const getAdminUsers = () => request('/admin/users')
