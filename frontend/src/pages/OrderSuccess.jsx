@@ -4,70 +4,16 @@ import Navbar from '../components/Navbar.jsx'
 export default function OrderSuccess() {
   const { state } = useLocation()
   const order = state?.order
-
   return (
     <div className="min-h-screen bg-[#fcfafb]">
       <Navbar />
       <main className="mx-auto max-w-2xl px-4 py-16 text-center">
         <div className="rounded-3xl bg-white p-8 shadow-sm ring-1 ring-gray-100 sm:p-12">
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-100 text-3xl text-green-600">
-            ✓
-          </div>
-
-          <p className="mt-6 text-xs font-bold uppercase tracking-[.2em] text-[#c76b8b]">
-            Order confirmed
-          </p>
-
-          <h1 className="mt-2 text-3xl font-black text-[#24151d]">
-            Thank you for shopping with Elora
-          </h1>
-
-          {order ? (
-            <>
-              <p className="mt-3 text-gray-500">
-                Order #{order._id?.slice(-8).toUpperCase()} has been placed successfully.
-              </p>
-
-              <div className="mx-auto mt-7 max-w-sm rounded-2xl bg-gray-50 p-5 text-left">
-                <div className="flex justify-between">
-                  <span>Total</span>
-                  <b>₹{Number(order.total || 0).toLocaleString('en-IN')}</b>
-                </div>
-
-                <div className="mt-2 flex justify-between">
-                  <span>Payment</span>
-                  <b className="uppercase">{order.paymentMethod || 'COD'}</b>
-                </div>
-
-                <div className="mt-2 flex justify-between">
-                  <span>Status</span>
-                  <b className="capitalize text-[#c76b8b]">
-                    {order.status || 'placed'}
-                  </b>
-                </div>
-              </div>
-            </>
-          ) : (
-            <p className="mt-3 text-gray-500">
-              Your order was placed successfully.
-            </p>
-          )}
-
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
-            <Link
-              to="/account"
-              className="rounded-xl bg-[#24151d] px-6 py-3 font-bold text-white"
-            >
-              View my orders
-            </Link>
-
-            <Link
-              to="/products"
-              className="rounded-xl border border-gray-200 px-6 py-3 font-bold"
-            >
-              Continue shopping
-            </Link>
-          </div>
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-100 text-3xl text-green-600">✓</div>
+          <p className="mt-6 text-xs font-bold uppercase tracking-[.2em] text-[#c76b8b]">Order confirmed</p>
+          <h1 className="mt-2 text-3xl font-black text-[#24151d]">Thank you for shopping with Shobhaya Cloth</h1>
+          {order ? (<><p className="mt-3 text-gray-500">Order #{order._id?.slice(-8).toUpperCase()} has been placed successfully.</p><div className="mx-auto mt-7 max-w-sm rounded-2xl bg-gray-50 p-5 text-left"><div className="flex justify-between"><span>Total</span><b>₹{Number(order.total || 0).toLocaleString('en-IN')}</b></div><div className="mt-2 flex justify-between"><span>Payment</span><b className="uppercase">{order.paymentMethod || 'COD'}</b></div><div className="mt-2 flex justify-between"><span>Status</span><b className="capitalize text-[#c76b8b]">{order.status || 'placed'}</b></div></div></>) : <p className="mt-3 text-gray-500">Your order was placed successfully.</p>}
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center"><Link to="/account" className="rounded-xl bg-[#24151d] px-6 py-3 font-bold text-white">View my orders</Link><Link to="/products" className="rounded-xl border border-gray-200 px-6 py-3 font-bold">Continue shopping</Link></div>
         </div>
       </main>
     </div>
