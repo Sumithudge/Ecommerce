@@ -37,13 +37,14 @@ export function CartProvider({ children }) {
 
   function addToCart(product) {
     setCartItems((currentItems) => {
+      const productId = product._id || product.id
       const existingItem = currentItems.find(
-        (item) => item.id === product.id
+        (item) => (item._id || item.id) === productId
       )
 
       if (existingItem) {
         return currentItems.map((item) =>
-          item.id === product.id
+          (item._id || item.id) === productId
             ? {
                 ...item,
                 quantity: item.quantity + 1,
@@ -63,17 +64,13 @@ export function CartProvider({ children }) {
   }
 
   function removeFromCart(productId) {
-    setCartItems((currentItems) =>
-      currentItems.filter(
-        (item) => item.id !== productId
-      )
-    )
+    setCartItems((currentItems) => currentItems.filter(item => (item._id || item.id) !== productId))
   }
 
   function increaseQuantity(productId) {
     setCartItems((currentItems) =>
       currentItems.map((item) =>
-        item.id === productId
+        (item._id || item.id) === productId
           ? {
               ...item,
               quantity: item.quantity + 1,
