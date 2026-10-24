@@ -14,7 +14,7 @@ export default function Account() {
   if(!user)return null
   async function saveAddress(e){e.preventDefault();const a=await addAddress(form);setAddresses([...addresses,a]);setShowAddress(false);setForm({label:'Home',firstName:'',lastName:'',phone:'',address:'',city:'',state:'',pincode:''})}
   return <div className="min-h-screen bg-[#fcfafb]"><Navbar/><main className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
-    <div className="rounded-3xl bg-[#24151d] p-7 text-white sm:p-10"><p className="text-sm text-white/60">My Elora account</p><h1 className="mt-2 text-3xl font-black">Hi, {user.name.split(' ')[0]} 👋</h1><p className="mt-2 text-sm text-white/70">{user.email}</p></div>
+    <div className="rounded-3xl bg-[#24151d] p-7 text-white sm:p-10"><p className="text-sm text-white/60">My Shobhaya Cloth account</p><h1 className="mt-2 text-3xl font-black">Hi, {user.name.split(' ')[0]} 👋</h1><p className="mt-2 text-sm text-white/70">{user.email}</p></div>
     <div className="mt-7 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
       <Link to="/products" className="rounded-2xl bg-white p-6 ring-1 ring-gray-100"><b>Shop products</b><p className="mt-2 text-sm text-gray-500">Discover new styles.</p></Link>
       <Link to="/wishlist" className="rounded-2xl bg-white p-6 ring-1 ring-gray-100"><b>Wishlist</b><p className="mt-2 text-sm text-gray-500">Your saved favourites.</p></Link>
