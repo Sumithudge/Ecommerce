@@ -37,3 +37,9 @@ jobs:
       - run: npm ci
       - run: node --check src/server.js
       - run: node --check src/controllers/storeController.js
+      - run: node --check src/controllers/authController.js
+      - run: node --check src/controllers/orderController.js
+      - run: node --check src/controllers/adminController.js
+      - run: node --check src/middleware/auth.js
+      - run: node --check src/seed/seedAdmin.js
+      - run: node --check src/seed/seedProducts.js
