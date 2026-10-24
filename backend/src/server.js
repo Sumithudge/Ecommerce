@@ -8,7 +8,6 @@ import orderRoutes from './routes/orderRoutes.js'
 import adminRoutes from './routes/adminRoutes.js'
 import storeRoutes from './routes/storeRoutes.js'
 
-
 dotenv.config()
 
 if (process.env.NODE_ENV === 'production' && !process.env.AUTH_SECRET) {
@@ -17,7 +16,27 @@ if (process.env.NODE_ENV === 'production' && !process.env.AUTH_SECRET) {
 
 const app = express()
 
-app.use(cors({ origin: process.env.FRONTEND_URL ? process.env.FRONTEND_URL.split(',').map(value => value.trim()).filter(Boolean) : true }))
+const configuredOrigins = (process.env.FRONTEND_URL || '')
+  .split(',')
+  .map(value => value.trim().replace(/\/$/, ''))
+  .filter(Boolean)
+
+const allowedOrigins = new Set([
+  ...configuredOrigins,
+  'http://localhost:5173',
+  'http://127.0.0.1:5173',
+])
+
+app.use(cors({
+  origin(origin, callback) {
+    if (!origin || allowedOrigins.has(origin)) {
+      return callback(null, true)
+    }
+
+    return callback(new Error('CORS blocked origin: ' + origin))
+  },
+}))
+
 app.use(express.json())
 
 app.use('/api/products', productRoutes)
@@ -40,7 +59,7 @@ const startServer = async () => {
 
   app.listen(PORT, () => {
     console.log(
-      `Elora API running on http://localhost:${PORT}`
+      'Elora API running on http://localhost:' + PORT
     )
   })
 }
