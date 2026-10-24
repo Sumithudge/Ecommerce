@@ -209,6 +209,23 @@ function Navbar() {
       {mobileOpen && (
         <div className="border-b border-gray-100 bg-white lg:hidden">
 
+          <div className="grid grid-cols-2 gap-2 border-b border-gray-100 p-4">
+            <Link
+              to={user ? "/account" : "/login"}
+              onClick={() => setMobileOpen(false)}
+              className="rounded-xl bg-[#fff4f7] px-3 py-3 text-sm font-semibold text-[#24151d]"
+            >
+              {user ? "My Account" : "Sign in"}
+            </Link>
+            <Link
+              to="/wishlist"
+              onClick={() => setMobileOpen(false)}
+              className="rounded-xl bg-[#fff4f7] px-3 py-3 text-sm font-semibold text-[#24151d]"
+            >
+              Wishlist
+            </Link>
+          </div>
+
           <div className="grid grid-cols-2 gap-1 p-4">
 
             {categories.map((category) => (
