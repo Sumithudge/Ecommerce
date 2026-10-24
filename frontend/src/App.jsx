@@ -57,11 +57,6 @@ function App() {
           element={<Checkout />}
         />
 
-        {/* Payment */}
-        <Route
-          path="/payment"
-          element={<Payment />}
-        />
         <Route
          path="/about"
          element={<About />}
