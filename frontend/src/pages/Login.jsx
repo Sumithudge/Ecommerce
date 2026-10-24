@@ -16,7 +16,7 @@ export default function Login() {
 
   async function submit(e) {
     e.preventDefault(); setError(''); setBusy(true)
-    try { const u = await login({ email, password }); navigate(u.role === 'admin' ? '/admin' : '/account') }
+    try { const u = await login({ email, password }); navigate(u.role === 'admin' ? '/admin' : (location.state?.from || '/account'), { replace: true }) }
     catch (err) { setError(err.message) } finally { setBusy(false) }
   }
 
