@@ -13,7 +13,16 @@ import Account from './pages/Account.jsx'
 import Admin from './pages/Admin.jsx'
 import OrderSuccess from './pages/OrderSuccess.jsx'
 import Wishlist from './pages/Wishlist.jsx'
+import { Navigate } from 'react-router-dom'
+import { useAuth } from './context/AuthContext.jsx'
 
+
+function RequireAuth({ children }) {
+  const { user, loading } = useAuth()
+  if (loading) return <div className="flex min-h-screen items-center justify-center bg-[#fcfafb] text-sm text-gray-500">Loading your account…</div>
+  if (!user) return <Navigate to="/login" replace />
+  return children
+}
 
 function App() {
   return (
@@ -40,9 +49,9 @@ function App() {
 
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/account" element={<Account />} />
+        <Route path="/account" element={<RequireAuth><Account /></RequireAuth>} />
         <Route path="/order-success" element={<OrderSuccess />} />
-        <Route path="/wishlist" element={<Wishlist />} />
+        <Route path="/wishlist" element={<RequireAuth><Wishlist /></RequireAuth>} />
         <Route path="/admin" element={<Admin />} />
 
         {/* Cart */}
