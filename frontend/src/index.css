@@ -8,6 +8,13 @@ html {
   scroll-behavior: smooth;
 }
 
+html,
+body,
+#root {
+  width: 100%;
+  min-width: 0;
+}
+
 body {
   margin: 0;
   font-family:
@@ -20,6 +27,7 @@ body {
     sans-serif;
   background: #ffffff;
   color: #24151d;
+  overflow-x: hidden;
 }
 
 button,
