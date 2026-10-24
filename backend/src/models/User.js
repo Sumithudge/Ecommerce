@@ -7,6 +7,8 @@ const userSchema = new mongoose.Schema({
   role: { type: String, enum: ['user', 'admin'], default: 'user' },
   phone: { type: String, default: '' },
   avatar: { type: String, default: '' },
+  addresses: { type: [{ label: String, firstName: String, lastName: String, phone: String, address: { type: String, required: true }, city: String, state: String, pincode: String }], default: [] },
+  wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }],
   isActive: { type: Boolean, default: true },
 }, { timestamps: true })
 
