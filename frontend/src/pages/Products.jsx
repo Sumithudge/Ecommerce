@@ -433,7 +433,7 @@ useEffect(() => {
                   {filteredProducts.map(
                     (product) => (
                       <ProductCard
-                        key={product.id}
+                        key={product._id || product.id}
                         product={product}
                       />
                     )
