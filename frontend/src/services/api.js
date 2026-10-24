@@ -54,3 +54,6 @@ export const deleteAddress = (id) => request(`/store/addresses/${id}`, { method:
 export const getReviews = (productId) => request(`/store/reviews/${productId}`)
 export const createReview = (productId, payload) => request(`/store/reviews/${productId}`, { method: 'POST', body: JSON.stringify(payload) })
 export const applyCoupon = (code, subtotal) => request('/store/coupons/apply', { method: 'POST', body: JSON.stringify({ code, subtotal }) })
+
+export const forgotPassword = (email) => request('/auth/forgot-password', { method: 'POST', body: JSON.stringify({ email }) })
+export const resetPassword = (token, password) => request('/auth/reset-password', { method: 'POST', body: JSON.stringify({ token, password }) })
