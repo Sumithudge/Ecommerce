@@ -1,9 +1,10 @@
 import Order from '../models/Order.js'
 import Product from '../models/Product.js'
+import Coupon from '../models/Coupon.js'
 
 export async function createOrder(req, res) {
   try {
-    const { items, shippingAddress, paymentMethod = 'cod', discount = 0 } = req.body
+    const { items, shippingAddress, paymentMethod = 'cod', couponCode = '' } = req.body
     if (paymentMethod !== 'cod') return res.status(400).json({ message: 'Elora accepts Cash on Delivery only' })
     if (!Array.isArray(items) || !items.length) return res.status(400).json({ message: 'Cart is empty' })
 
@@ -22,8 +23,30 @@ export async function createOrder(req, res) {
     })
 
     const shipping = subtotal >= 1500 ? 0 : 80
-    const total = Math.max(0, subtotal + shipping - Number(discount || 0))
-    const order = await Order.create({ user: req.user._id, items: normalizedItems, shippingAddress, subtotal, shipping, discount: Number(discount || 0), total, paymentMethod })
+    let couponDiscount = 0
+
+    if (couponCode) {
+      const coupon = await Coupon.findOne({
+        code: String(couponCode).toUpperCase(),
+        active: true,
+      })
+
+      if (!coupon || (coupon.expiresAt && coupon.expiresAt < new Date()) || subtotal < coupon.minOrder) {
+        return res.status(400).json({ message: 'Invalid or unavailable coupon' })
+      }
+
+      couponDiscount = coupon.type === 'percent'
+        ? subtotal * coupon.value / 100
+        : coupon.value
+
+      if (coupon.maxDiscount > 0) couponDiscount = Math.min(couponDiscount, coupon.maxDiscount)
+      couponDiscount = Math.min(Math.round(couponDiscount), subtotal)
+    }
+
+    const promotionalDiscount = subtotal >= 3000 ? 500 : 0
+    const discount = Math.max(couponDiscount, promotionalDiscount)
+    const total = Math.max(0, subtotal + shipping - discount)
+    const order = await Order.create({ user: req.user._id, items: normalizedItems, shippingAddress, subtotal, shipping, discount, total, paymentMethod })
     await Promise.all(normalizedItems.map(item => Product.findByIdAndUpdate(item.product, { $inc: { stock: -item.quantity } })))
     res.status(201).json(order)
   } catch (error) { res.status(400).json({ message: error.message }) }
