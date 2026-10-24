@@ -5,7 +5,9 @@ import User from '../models/User.js'
 
 dotenv.config()
 
-const password = process.env.ADMIN_PASSWORD || 'ChangeMe123!'
+const password = process.env.ADMIN_PASSWORD
+if (!password) throw new Error('ADMIN_PASSWORD must be set before running the admin seed')
+if (password.length < 8) throw new Error('ADMIN_PASSWORD must be at least 8 characters')
 
 function hashPassword(value) {
   const salt = crypto.randomBytes(16).toString('hex')
