@@ -1,26 +1,23 @@
+import { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar.jsx'
 import HeroSection from '../components/HeroSection.jsx'
 import CategorySection from '../components/CategorySection.jsx'
 import PromoBanner from '../components/PromoBanner.jsx'
 import TrustBar from '../components/TrustBar.jsx'
 import ProductCard from '../components/ProductCard.jsx'
-import { products } from '../services/products.js'
+import { getProducts } from '../services/api.js'
 import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 
 function ProductSection({ title, subtitle, items }) {
   return (
     <section className="bg-white px-4 py-14 sm:px-6 lg:px-8">
-
       <div className="mx-auto max-w-[1400px]">
-
         <div className="flex items-end justify-between">
-
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#c76b8b]">
               {subtitle}
             </p>
-
             <h2 className="mt-2 text-3xl font-bold tracking-tight text-[#24151d] sm:text-4xl">
               {title}
             </h2>
@@ -33,18 +30,15 @@ function ProductSection({ title, subtitle, items }) {
             View all
             <ArrowRight size={16} />
           </Link>
-
         </div>
 
         <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-
           {items.map((product) => (
             <ProductCard
-              key={product.id}
+              key={product._id || product.id}
               product={product}
             />
           ))}
-
         </div>
 
         <div className="mt-6 text-center sm:hidden">
@@ -56,37 +50,43 @@ function ProductSection({ title, subtitle, items }) {
             <ArrowRight size={16} />
           </Link>
         </div>
-
       </div>
-
     </section>
   )
 }
 
 function Home() {
-  const safeProducts = Array.isArray(products)
-    ? products
-    : []
+  const [products, setProducts] = useState([])
 
-  const featuredProducts = safeProducts.slice(0, 5)
+  useEffect(() => {
+    let active = true
 
-  const trendingProducts = safeProducts.slice(5, 10).length
-    ? safeProducts.slice(5, 10)
-    : safeProducts.slice(0, 5)
+    getProducts()
+      .then(data => {
+        if (active) setProducts(Array.isArray(data) ? data : [])
+      })
+      .catch(() => {
+        if (active) setProducts([])
+      })
+
+    return () => {
+      active = false
+    }
+  }, [])
+
+  const featuredProducts = products.slice(0, 5)
+  const trendingProducts = products.slice(5, 10).length
+    ? products.slice(5, 10)
+    : products.slice(0, 5)
 
   return (
     <div className="min-h-screen bg-white">
-
       <Navbar />
 
       <main>
-
         <HeroSection />
-
         <TrustBar />
-
         <CategorySection />
-
         <PromoBanner />
 
         {featuredProducts.length > 0 && (
@@ -107,11 +107,8 @@ function Home() {
           </section>
         )}
 
-        {/* Newsletter */}
         <section className="px-4 py-16 sm:px-6 lg:px-8">
-
           <div className="mx-auto max-w-[1100px] rounded-3xl bg-[#f6e4e9] px-6 py-12 text-center sm:px-12">
-
             <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#a55773]">
               Stay in the loop
             </p>
@@ -126,7 +123,6 @@ function Home() {
             </p>
 
             <div className="mx-auto mt-7 flex max-w-md flex-col gap-2 sm:flex-row">
-
               <input
                 type="email"
                 placeholder="Your email address"
@@ -136,15 +132,10 @@ function Home() {
               <button className="h-12 rounded-full bg-[#24151d] px-7 text-sm font-bold text-white transition hover:bg-[#3b222e]">
                 Subscribe
               </button>
-
             </div>
-
           </div>
-
         </section>
-
       </main>
-
     </div>
   )
 }
