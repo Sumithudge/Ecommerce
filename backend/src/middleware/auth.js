@@ -1,7 +1,7 @@
 import crypto from 'crypto'
 import User from '../models/User.js'
 
-const SECRET = process.env.AUTH_SECRET || 'elora-development-secret'
+const SECRET = process.env.AUTH_SECRET || (process.env.NODE_ENV === 'production' ? '' : 'elora-development-secret')
 
 function sign(payload) {
   const body = Buffer.from(JSON.stringify(payload)).toString('base64url')
@@ -10,10 +10,12 @@ function sign(payload) {
 }
 
 export function createToken(user) {
+  if (!SECRET) throw new Error('AUTH_SECRET is not configured')
   return sign({ id: user._id.toString(), role: user.role, exp: Date.now() + 1000 * 60 * 60 * 24 * 7 })
 }
 
 function verify(token) {
+  if (!SECRET) return null
   const [body, signature] = String(token || '').split('.')
   if (!body || !signature) return null
   const expected = crypto.createHmac('sha256', SECRET).update(body).digest('base64url')
