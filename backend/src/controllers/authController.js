@@ -64,7 +64,7 @@ export async function forgotPassword(req, res) {
       const response = await fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: { Authorization: 'Bearer ' + process.env.RESEND_API_KEY, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ from: process.env.RESEND_FROM, to: [user.email], subject: 'Reset your Elora password', html: '<p>Reset your Elora password:</p><p><a href="' + resetUrl + '">Reset password</a></p><p>This link expires in 30 minutes.</p>' }),
+        body: JSON.stringify({ from: process.env.RESEND_FROM, to: [user.email], subject: 'Reset your Shobhaya Cloth password', html: '<p>Reset your Shobhaya Cloth password:</p><p><a href="' + resetUrl + '">Reset password</a></p><p>This link expires in 30 minutes.</p>' }),
       })
       sent = response.ok
     }
