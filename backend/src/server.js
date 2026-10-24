@@ -39,6 +39,17 @@ app.use(cors({
 
 app.use(express.json())
 
+// Vercel/serverless requests need a database connection before handling routes.
+// The connection helper reuses an existing connection/promise across invocations.
+app.use(async (req, res, next) => {
+  try {
+    await connectDB()
+    next()
+  } catch (error) {
+    next(error)
+  }
+})
+
 app.use('/api/products', productRoutes)
 app.use('/api/auth', authRoutes)
 app.use('/api/orders', orderRoutes)
@@ -49,6 +60,14 @@ app.get('/api/health', (req, res) => {
   res.json({
     success: true,
     message: 'Elora API is running',
+  })
+})
+
+app.use((error, req, res, next) => {
+  console.error(error)
+  res.status(500).json({
+    success: false,
+    message: error.message || 'Internal server error',
   })
 })
 
@@ -64,4 +83,9 @@ const startServer = async () => {
   })
 }
 
-startServer()
+// Vercel imports the app as a serverless handler; local development runs the listener.
+if (!process.env.VERCEL) {
+  startServer()
+}
+
+export default app
