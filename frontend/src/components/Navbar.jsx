@@ -101,7 +101,7 @@ function Navbar() {
           {/* Actions */}
           <div className="ml-auto flex items-center gap-1 sm:gap-3">
 
-            <button className="hidden items-center gap-2 px-2 py-2 lg:flex">
+            <Link to="/account" className="hidden items-center gap-2 px-2 py-2 lg:flex">
               <UserRound
                 size={21}
                 strokeWidth={1.7}
@@ -110,7 +110,7 @@ function Navbar() {
               <span className="text-sm font-medium">
                 Account
               </span>
-            </button>
+            </Link>
 
             <button
               className="relative hidden p-2 sm:block"
