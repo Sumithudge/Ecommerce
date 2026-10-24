@@ -9,6 +9,7 @@ import {
 } from 'lucide-react'
 import { useState } from 'react'
 import { useCart } from '../context/CartContext.jsx'
+import { useAuth } from '../context/AuthContext.jsx'
 
 const categories = [
   { name: 'New Arrivals', path: '/products?category=New%20Arrivals' },
@@ -27,6 +28,7 @@ const categories = [
 function Navbar() {
   const { cartItems = [] } = useCart()
   const [mobileOpen, setMobileOpen] = useState(false)
+  const { user } = useAuth()
 
   const location = useLocation()
 
@@ -73,7 +75,7 @@ function Navbar() {
             to="/"
             className="mr-2 flex shrink-0 items-center"
           >
-            <div className="text-[28px] font-black tracking-[-1.5px] text-[#24151d] sm:text-[32px]">
+            <div className="text-[21px] font-black tracking-[-1.2px] text-[#24151d] sm:text-[28px] lg:text-[32px]">
               S<span className="text-[#c76b8b]">ho</span>bhaya Cloth
             </div>
           </Link>
@@ -101,14 +103,14 @@ function Navbar() {
           {/* Actions */}
           <div className="ml-auto flex items-center gap-1 sm:gap-3">
 
-            <Link to="/account" className="hidden items-center gap-2 px-2 py-2 lg:flex">
+            <Link to={user ? "/account" : "/login"} className="hidden items-center gap-2 px-2 py-2 lg:flex">
               <UserRound
                 size={21}
                 strokeWidth={1.7}
               />
 
               <span className="text-sm font-medium">
-                Account
+                {user ? "Account" : "Sign in"}
               </span>
             </Link>
 
@@ -172,7 +174,7 @@ function Navbar() {
       {/* Categories */}
       <nav className="hidden border-b border-gray-100 bg-white lg:block">
 
-        <div className="mx-auto flex max-w-[1500px] items-center justify-center gap-6 overflow-x-auto px-6">
+        <div className="mx-auto flex max-w-[1500px] items-center justify-center gap-5 overflow-x-auto px-4">
 
           {categories.map((category) => (
             <Link
