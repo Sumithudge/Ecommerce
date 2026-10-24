@@ -2,10 +2,13 @@ import { Link } from 'react-router-dom'
 import { Heart, ShoppingBag, Star } from 'lucide-react'
 import { useState } from 'react'
 import { useCart } from '../context/CartContext.jsx'
+import { useAuth } from '../context/AuthContext.jsx'
+import { toggleWishlist } from '../services/api.js'
 
 function ProductCard({ product }) {
   const [liked, setLiked] = useState(false)
   const { addToCart } = useCart()
+  const { user } = useAuth()
 
   if (!product) return null
 
@@ -73,7 +76,7 @@ function ProductCard({ product }) {
         {/* Wishlist */}
         <button
           type="button"
-          onClick={() => setLiked(!liked)}
+          onClick={async () => { try { if (user) { const result = await toggleWishlist(productId); setLiked(result.added) } else { setLiked(!liked) } } catch {} }}
           aria-label="Add to wishlist"
           className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/95 shadow-sm backdrop-blur transition hover:scale-105"
         >
